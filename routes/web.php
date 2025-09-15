@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ImageToolController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -16,3 +17,11 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+
+// Rutas para el gestor de imágenes
+
+// Mostrar el formulario de subida y procesamiento de imágenes
+Route::get('/gestor-imagen', [ImageToolController::class, 'index'])->name('gestor.imagen');
+
+// Procesa la imagen subida
+Route::post('/gestor-imagen/process', [ImageToolController::class, 'process'])->name('gestor.imagen.process');
