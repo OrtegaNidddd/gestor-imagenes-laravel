@@ -1,66 +1,138 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# 📸 Gestor de Imágenes
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Aplicación en **Laravel 10** que permite **subir imágenes** y convertirlas fácilmente a diferentes formatos de salida: **JPG, PNG y WEBP**.  
+Incluye vista previa local, validación de formatos y almacenamiento de imágenes procesadas con URL pública.
 
-## About Laravel
+---
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## 🚀 Características
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+- Subida de imágenes mediante *drag & drop* o selector de archivo.
+- Conversión a **JPG**, **PNG** o **WEBP** usando [Intervention Image v3](https://image.intervention.io/v3).
+- Vista previa local antes de procesar.
+- Resaltado visual de la opción seleccionada con TailwindCSS.
+- Almacenamiento en `public/storage/processed_images/` / `storage/app/public/processed_images/` con nombre único (`uuid`).
+- Descarga directa del archivo procesado.
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+---
 
-## Learning Laravel
+## 🛠️ Tecnologías usadas
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+- [Laravel 10](https://laravel.com/) – Framework backend.
+- [TailwindCSS](https://tailwindcss.com/) – Estilos y diseño responsivo.
+- [Intervention Image v3](https://image.intervention.io/) – Procesamiento de imágenes.
+- [Laravel Vite](https://laravel.com/docs/10.x/vite) – Compilación de assets.
+- [Axios](https://axios-http.com/) – Manejo de peticiones (ya disponible vía NPM).
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+---
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+## 📦 Requisitos
 
-## Laravel Sponsors
+- **PHP 8.1+**
+- **Composer** y **Node.js (>=18)**
+- **Laravel 10**
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+---
 
-### Premium Partners
+## ⚙️ Instalación
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
+Clona el repositorio e instala dependencias:
 
-## Contributing
+```bash
+git clone https://github.com/usuario/gestor-imagenes-laravel.git
+cd gestor-imagenes
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+# Instalar dependencias PHP
+composer install
 
-## Code of Conduct
+# Instalar dependencias JS
+npm install
+````
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+Configura tu entorno:
 
-## Security Vulnerabilities
+```bash
+cp .env.example .env
+php artisan key:generate
+```
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+Crea el enlace simbólico para acceder a imágenes públicas:
 
-## License
+```bash
+php artisan storage:link
+```
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+Ejecuta el servidor de desarrollo:
+
+```bash
+php artisan serve
+```
+
+---
+
+## 🌐 Rutas principales
+
+| Ruta                     | Método | Acción                                        |
+| ------------------------ | ------ | --------------------------------------------- |
+| `/gestor-imagen`         | GET    | Mostrar formulario de subida y conversión     |
+| `/gestor-imagen/process` | POST   | Procesar la imagen y devolver URL de descarga |
+
+---
+
+## 🖥️ Vista previa
+
+Formulario principal (`resources/views/image-preview.blade.php`):
+
+```blade
+<form action="{{ route('gestor.imagen.process') }}" method="POST" enctype="multipart/form-data">
+    @csrf
+    <!-- Subida de archivo -->
+    <input type="file" name="image" accept="image/*" required>
+
+    <!-- Formatos -->
+    <label>
+        <input type="radio" name="format" value="jpg" checked> JPG
+    </label>
+    <label>
+        <input type="radio" name="format" value="png"> PNG
+    </label>
+    <label>
+        <input type="radio" name="format" value="webp"> WEBP
+    </label>
+
+    <button type="submit">Procesar</button>
+</form>
+```
+
+---
+
+## 📝 Ejemplo de uso
+
+1. Ingresa a [http://localhost:8000/gestor-imagen](http://localhost:8000/gestor-imagen).
+2. Sube una imagen (`.jpg`, `.png`, `.webp`).
+3. Selecciona el formato de salida (JPG, PNG, WEBP).
+4. Haz clic en **Procesar**.
+5. Descarga tu imagen procesada desde la vista de resultados.
+
+---
+
+## 📂 Estructura relevante
+
+```
+app/
+ └── Http/Controllers/
+     └── ImageToolController.php
+resources/
+ └── views/
+     └── image-preview.blade.php
+routes/
+ └── web.php
+public/
+ └── storage/processed_images/   # Imágenes procesadas
+```
+
+---
+
+## 👨‍💻 Autor
+
+[Nick Ortega](https://github.com/OrtegaNidddd)
