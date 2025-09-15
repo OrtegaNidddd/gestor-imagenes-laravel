@@ -38,13 +38,14 @@ class ImageToolController extends Controller
         // Formato seleccionado por el usuario
         $format = $data['format'];
 
-        // Calidad de la imagen (0-100) 85%
-        $quality = 100;
+        // Calidad de la imagen (0-100) 75 por defecto
+        $quality = 75;
 
         /* 
             Generar un nombre único para la imagen usando uuid 
             Ruta donde se guardará la imagen procesada con el nombre único
         */
+
         $uuid = (string) Str::uuid();
         $path = "public/processed_images/{$uuid}.{$format}";
 

@@ -1,13 +1,18 @@
-    <!doctype html>
-    <html lang="es">
-    <head>
+<!doctype html>
+<html lang="es">
+<head>
     <meta charset="utf-8">
     <title>Gestor de Imágenes</title>
-    <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <script src="https://cdn.tailwindcss.com"></script>
-    </head>
-    <body class="bg-gray-50 text-gray-900">
+</head>
+<style>
+    .selected-option {
+        background-color: #3949AB; 
+        color: white;
+    }
+</style>
+<body class="bg-gray-50 text-gray-900">
     <div class="max-w-3xl mx-auto p-6 space-y-6">
 
         <h1 class="text-2xl font-bold">Subir y convertir imagenes.</h1>
@@ -24,16 +29,16 @@
         @endif
 
         <form
-        action="{{ route('gestor.imagen.process') }}"
-        method="POST"
-        enctype="multipart/form-data"
-        class="space-y-4 bg-white p-4 rounded border"
+            action="{{ route('gestor.imagen.process') }}"
+            method="POST"
+            enctype="multipart/form-data"
+            class="space-y-4 bg-white p-4 rounded border"
         >
         @csrf
         
         {{-- Archivo --}}
         <div class="flex items-center justify-center w-full">
-            <label for="dropzone-file" class="flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-white-50 hover:bg-gray-200 border-gray-300 duration-300 ease-in-out">
+            <label for="dropzone-file" class="flex flex-col items-center justify-center w-full h-48 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-white-50 hover:bg-gray-200 border-gray-300 duration-300 ease-in-out">
                 <div class="flex flex-col items-center justify-center pt-5 pb-6">
                     <svg class="w-8 h-8 mb-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 16">
                         <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2"/>
@@ -54,19 +59,34 @@
         
 
         {{-- Formato de salida --}}
-        <div>
-            <label class="block mb-1 font-medium">Formato de salida</label>
-            <select name="format" class="w-full border rounded p-2 bg-white">
-                <option value="jpg">JPG</option>
-                <option value="png">PNG</option>
-                <option value="webp">WEBP</option>
-            </select>
+        <div class="grid grid-cols-3 gap-3">
+            <label class="option relative flex items-center p-3 rounded-lg border border-gray-200 cursor-pointer hover:border-indigo-300 transition-colors duration-300 ease-in-out">
+                <input type="radio" name="format" value="jpg" checked class="sr-only">
+                <div class="format-option w-full text-center">
+                    <div class="text-lg font-medium">JPG</div>
+                    <div class="text-xs">Menor tamaño</div>
+                </div>
+            </label>
+            <label class="option relative flex items-center p-3 rounded-lg border border-gray-200 cursor-pointer hover:border-indigo-300 transition-colors duration-300 ease-in-out">
+                <input type="radio" name="format" value="png" class="sr-only">
+                <div class="format-option w-full text-center">
+                    <div class="text-lg font-medium">PNG</div>
+                    <div class="text-xs">Con transparencia</div>
+                </div>
+            </label>
+            <label class="option relative flex items-center p-3 rounded-lg border border-gray-200 cursor-pointer hover:border-indigo-300 transition-colors duration-300 ease-in-out">
+                <input type="radio" name="format" value="webp" class="sr-only">
+                <div class="format-option w-full text-center">
+                    <div class="text-lg font-medium">WEBP</div>
+                    <div class="text-xs">Más moderno</div>
+                </div>
+            </label>
         </div>
+
 
         
         <p class="text-xs text-gray-500">
-            Si pones solo uno (ancho o alto) se calcula el otro para mantener la proporción.  
-            Si pones ambos, se encaja dentro del tamaño indicado sin deformar.
+            Ten en cuenta que al convertir la imagen, se perderá calidad si el formato de salida es con pérdida (como JPG o WEBP).
         </p>
 
         {{-- Vista previa (cliente) opcional --}}
@@ -130,7 +150,18 @@
         reader.readAsDataURL(file);
         });
 
-        
+        // Resaltar opción seleccionada
+        const options = document.querySelectorAll('.option');
+        options.forEach(option => {
+            const radio = option.querySelector('input[type="radio"]');
+            radio.addEventListener('change', () => {
+                options.forEach(o => o.classList.remove('selected-option'));
+                if (radio.checked) {
+                    option.classList.add('selected-option');
+                }
+            });
+        });
+
     </script>
-    </body>
-    </html>
+</body>
+</html>
