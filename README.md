@@ -21,8 +21,6 @@ Incluye vista previa local, validación de formatos y almacenamiento de imágene
 - [Laravel 10](https://laravel.com/) – Framework backend.
 - [TailwindCSS](https://tailwindcss.com/) – Estilos y diseño responsivo.
 - [Intervention Image v3](https://image.intervention.io/) – Procesamiento de imágenes.
-- [Laravel Vite](https://laravel.com/docs/10.x/vite) – Compilación de assets.
-- [Axios](https://axios-http.com/) – Manejo de peticiones (ya disponible vía NPM).
 
 ---
 
