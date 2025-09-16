@@ -41,6 +41,13 @@ class ImageToolController extends Controller
         // Calidad de la imagen (0-100) 75 por defecto
         $quality = 75;
 
+        // Redimensionar el alto al 50% conservando proporción (width se ajusta solo)
+        $originalHeight = $img->height();
+        $newHeight      = max(1, intdiv($originalHeight, 2));
+
+        // ✅ v3: mantiene aspect ratio
+        $img->scale(height: $newHeight);
+
         /* 
             Generar un nombre único para la imagen usando uuid 
             Ruta donde se guardará la imagen procesada con el nombre único
